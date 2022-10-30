@@ -8,7 +8,7 @@ var currentCard = document.getElementById("current-card");
 var currentDate = moment().format("dddd");
 
 
-function locationSearch(city) {
+function locationSearch(city) {  //Converts city searched into coordinates
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
     fetch(queryURL)
     .then(function(data){
@@ -22,13 +22,13 @@ function locationSearch(city) {
         getFutureWeather(lat, long);
     })
 }
-function getCurrentWeather(lat, long) {
+function getCurrentWeather(lat, long) {  //uses the coorndinates pulled from the location fetch to grab today's forecast
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`
     fetch(queryURL)
     .then(function(data){
         return data.json()
     })
-    .then(function(data) {
+    .then(function(data) {  //takes data pulled from api and fills static html elements.
         document.querySelector("#today").textContent = "Today's Forecast"
         document.querySelector("#city-name").textContent = data.name;
         document.querySelector("#cTemp").textContent = "Temp: " + data.main.temp + "Fº";
@@ -44,7 +44,7 @@ function getCurrentWeather(lat, long) {
 
     })
 }
-function getFutureWeather(lat, long) {
+function getFutureWeather(lat, long) {   //uses the coorndinates pulled from the location fetch to grab future forecasts
     var queryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`
     fetch(queryURL)
     .then(function(data){
@@ -52,7 +52,7 @@ function getFutureWeather(lat, long) {
     })
     .then(function(data) {
         console.log("Future weather ",data);
-        for (var i =0; i< 40; i+=8) {
+        for (var i =0; i< 40; i+=8) {   //generates html elements for each day of the 5-day forecast
             var column = document.createElement("div");
             column.setAttribute("class", "column");
             weatherContainer.append(column);
@@ -91,7 +91,7 @@ function getFutureWeather(lat, long) {
     })
 }
 
-searchButton.addEventListener("click", function() {
+searchButton.addEventListener("click", function() {   //initiates api calls after search button is clicked if something is searched.
     var searchedCity = searchInput.value;
     if (!searchedCity) {
         return;
@@ -101,7 +101,4 @@ searchButton.addEventListener("click", function() {
 
 })
 
-///WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
+
